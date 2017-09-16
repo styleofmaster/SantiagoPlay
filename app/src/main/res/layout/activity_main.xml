@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.santiago.zm.santiagoplay.view.MainActivity">
+
+
+    <!--<include-->
+        <!--android:id="@+id/navigation"-->
+        <!--layout="@layout/navigation_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
+    <com.santiago.zm.santiagoplay.utils.PagerSlidingTabStrip
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/navigation"
+        android:background="@drawable/background_tab"
+        app:pstsDividerColor="#eeeeee"
+        app:pstsIndicatorHeight="3dp"
+        app:pstsIndicatorColor="#EA2000"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12" />
+</LinearLayout>
