@@ -115,7 +115,11 @@ public class HttpUtil {
     public static Bitmap getHttpBitmap(String url){
         byte[] bytes = new byte[0];
         try {
-            bytes = get(url).body().bytes();
+            Response res = get(url);
+            if (res == null){
+                return null;
+            }
+            bytes = res.body().bytes();
         } catch (IOException e) {
             e.printStackTrace();
         }

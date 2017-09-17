@@ -109,7 +109,7 @@ public abstract class ArticleListFragment extends Fragment {
                          scrollState==RecyclerView.SCROLL_STATE_DRAGGING){
                      isLoading = true;
 //                     load.setVisibility(View.VISIBLE);
-                     adapter.setFootView(foot);
+//                     adapter.setFootView(foot);
                      pageNum++;
                      new Thread(new Runnable() {
                          @Override

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -74,30 +75,22 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (headView!=null&&viewType==TYPE_HEAD){
-            return new MyViewHolder(headView);
-        }
-        if (footView!=null&&viewType==TYPE_FOOT){
-            return new MyViewHolder(footView);
+
+        if (viewType==TYPE_FOOT){
+            View foot  = LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_recycler, parent, false);
+            return new MyViewHolder(foot,TYPE_FOOT);
         }
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+        return new MyViewHolder(view,TYPE_NOMAL);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (headView==null&&footView==null){
-            return TYPE_NOMAL;
-        }
-        if (headView!=null){
-            return TYPE_HEAD;
-        }
-        if (footView!=null){
+        if (position == (getItemCount()-1)){
             return TYPE_FOOT;
         }
-        return super.getItemViewType(position);
+        return TYPE_NOMAL;
     }
 
 
@@ -114,6 +107,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
             final Article article = articles.get(position);
             holder.title.setText(article.title);
             Glide.with(mFragment).load(article.pic).into(holder.icon);
+        }else {
+            if (articles.size()%10==0){
+                holder.foot.setText("正在加载更多。。。");
+            }else {
+                holder.foot.setText("没有更多数据了！");
+                holder.progressBar.setVisibility(View.GONE);
+            }
         }
 
 
@@ -154,9 +154,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
     }
 
     private int getScale(int width, int height, BitmapFactory.Options options) {
-        int bmwidth = options.outWidth;
+        int bmWidth = options.outWidth;
         int bmHeight = options.outHeight;
-        float widScale = bmwidth * 1.0f / width;
+        float widScale = bmWidth * 1.0f / width;
         float heiScale = bmHeight * 0.1f / height;
         float scale = widScale > heiScale ? widScale : heiScale;
         return (int) scale;
@@ -164,25 +164,29 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        if (headView==null&&footView==null){
-            return articles.size();
-        }
-        if (headView!=null&&footView!=null){
-            return articles.size()+2;
-        }
+//        if (headView==null&&footView==null){
+//            return articles.size();
+//        }
+//        if (headView!=null&&footView!=null){
+//            return articles.size()+2;
+//        }
         return articles.size()+1;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView icon;
-        TextView title;
+        TextView title,foot;
+        ProgressBar progressBar;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView,int itemType) {
             super(itemView);
-            if (itemView!=headView&&itemView!=footView){
+            if (itemType == TYPE_NOMAL){
                 icon = itemView.findViewById(R.id.article_item_img);
                 title = itemView.findViewById(R.id.article_item_title);
+            }else if(itemType == TYPE_FOOT&&itemView!=null){
+                foot = itemView.findViewById(R.id.foot_recycle);
+                progressBar = itemView.findViewById(R.id.progress);
             }
 
         }

@@ -30,9 +30,12 @@ public class ContentImageGetter implements Html.ImageGetter {
             public void run() {
                 if (s.startsWith("http")&&(s.endsWith("jpg")||s.endsWith("jpeg")||s.endsWith("png"))) {
                     Bitmap bm = HttpUtil.getHttpBitmap(s);
-                    BitmapDrawable bd = new BitmapDrawable(bm);
-                    drawable.addLevel(1, 1, bd);
-                    drawable.setBounds(0, 0, bm.getWidth(), bm.getHeight());
+                    if (bm != null){
+                        BitmapDrawable bd = new BitmapDrawable(bm);
+                        drawable.addLevel(1, 1, bd);
+                        drawable.setBounds(0, 0, bm.getWidth(), bm.getHeight());
+                    }
+
                     drawable.setLevel(1);
                     handler.post(new Runnable() {
                         @Override
